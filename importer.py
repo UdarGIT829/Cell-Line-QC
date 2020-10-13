@@ -12,13 +12,14 @@ from pathlib import Path
 def importCellCountXLSX():
     directory = os.path.dirname(__file__)
 
-    numberOfMasterFiles,masterFiles = 0, list() #Should only be 1!!!
+    numberOfMasterFiles = 0 #Should only be 1!!!
+    masterFiles = list() #Should only be 1!!!
     masterFile = str()
     for path in Path(directory).rglob('*.xlsx'):
         numberOfMasterFiles += 1
         masterFiles.append(path)
         if numberOfMasterFiles > 1:
-            print("Too many master files, there can only be 1 master file")
+            print("There can only be 1 master file")
             print("Master files seen: ", masterFiles)
             sys.exit()
         tempNameList = list()
@@ -40,7 +41,7 @@ def importCellCountXLSX():
     ###Begin importing from Cell count csv's
     cellCountFiles = {}
     pattern_NewTemplate = re.compile("\s-\s([a-zA-Z0-9]*)_")
-    pattern_other = re.compile("\d\D([A-Z0-9]*)_")
+    pattern_other = re.compile("\d\D([a-zA-Z0-9]*)_")
 
     for path in Path(directory).rglob('*.csv'):
         if 'Master' in str(path):
@@ -62,7 +63,7 @@ def importCellCountXLSX():
             rows = csv.reader(file)
             cellCountData[key] = rows
     ###End importing from Cell Count csv's
-    ###Format of cellCountData is {DayBarcode : iterable of all rows}    
+    ###Format of cellCountData is { DayBarcode : iterable of all rows }    
 
     #Import from master sheet to list called masterSheetRows
     masterSheetRows = list()
